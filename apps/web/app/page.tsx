@@ -91,7 +91,16 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.length > 0 ? (
               featuredProducts.map((product: any) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  slug={product.slug}
+                  price={product.price}
+                  compareAtPrice={product.comparePrice}
+                  image={product.images?.[0]?.url}
+                  brand={product.brand?.name}
+                />
               ))
             ) : (
               <p className="col-span-4 text-center text-muted-foreground py-10">
