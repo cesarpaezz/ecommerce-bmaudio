@@ -9,7 +9,7 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'BM Audio - Equipamentos de Som Profissional',
+  title: 'Dominus Audio - Equipamentos de Som Profissional',
   description: 'Loja de equipamentos de áudio profissional. Mesas de som, microfones, caixas de som e muito mais.',
 };
 

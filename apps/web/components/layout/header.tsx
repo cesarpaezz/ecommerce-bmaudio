@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Logo } from '@/components/ui/logo';
 import { useCartStore } from '@/lib/store';
 
 const categories = [
@@ -46,8 +47,8 @@ export function Header() {
 
       <div className="container py-4">
         <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-2xl font-bold text-primary">BM Audio</div>
+          <Link href="/" className="flex items-center">
+            <Logo height={40} />
           </Link>
 
           <form 

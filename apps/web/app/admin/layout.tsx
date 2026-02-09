@@ -61,7 +61,7 @@ export default function AdminLayout({
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-background border-r transform transition-transform duration-200 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between h-16 px-6 border-b">
           <Link href="/admin" className="font-bold text-xl text-primary">
-            BM Audio
+            Dominus Audio
           </Link>
           <Button
             variant="ghost"

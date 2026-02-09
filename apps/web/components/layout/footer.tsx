@@ -10,6 +10,7 @@ import {
   Shield,
   Truck
 } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
 
 const categories = [
   { name: 'Caixas de Som', slug: 'caixas-de-som' },
@@ -41,7 +42,7 @@ export function Footer() {
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">BM Audio</h3>
+            <Logo height={50} className="mb-4" />
             <p className="text-sm text-muted-foreground mb-4">
               Sua loja especializada em equipamentos de áudio profissional. 
               Qualidade e tradição desde 2010.
@@ -115,7 +116,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                contato@bmaudio.com.br
+                contato@dominusaudio.com.br
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 mt-0.5" />
@@ -151,7 +152,7 @@ export function Footer() {
 
           <div className="text-center text-sm text-muted-foreground">
             <p>
-              © {new Date().getFullYear()} BM Audio. Todos os direitos reservados.
+              © {new Date().getFullYear()} Dominus Audio. Todos os direitos reservados.
             </p>
             <p className="mt-1">
               CNPJ: 00.000.000/0001-00

@@ -40,6 +40,15 @@ export class ProductsController {
     return this.productsService.getFeatured(limit);
   }
 
+  @Get('id/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Obter produto por ID (Admin)' })
+  findById(@Param('id') id: string) {
+    return this.productsService.findById(id);
+  }
+
   @Get(':slug')
   @Public()
   @ApiOperation({ summary: 'Obter produto por slug' })

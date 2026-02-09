@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/product/product-card';
+import { CategoryIcon } from '@/components/ui/category-icon';
 
 async function getFeaturedProducts() {
   try {
@@ -35,13 +36,13 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section className="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white">
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Equipamentos de Áudio Profissional
             </h1>
-            <p className="text-xl text-blue-100 mb-8">
+            <p className="text-xl text-neutral-300 mb-8">
               Tudo que você precisa para sonorização de eventos, estúdios e igrejas.
               Qualidade profissional com os melhores preços.
             </p>
@@ -49,7 +50,7 @@ export default async function HomePage() {
               <Button size="lg" variant="secondary" asChild>
                 <Link href="/produtos">Ver Produtos</Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10" asChild>
+              <Button size="lg" className="bg-transparent text-white border-2 border-white hover:bg-white hover:text-neutral-900 transition-colors" asChild>
                 <Link href="/contato">Fale Conosco</Link>
               </Button>
             </div>
@@ -66,9 +67,11 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/categorias/${category.slug}`}
-                className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group"
               >
-                <div className="text-4xl mb-3">🎛️</div>
+                <div className="flex justify-center mb-4 text-neutral-700 group-hover:text-neutral-900 transition-colors">
+                  <CategoryIcon slug={category.slug} className="h-12 w-12" />
+                </div>
                 <h3 className="font-semibold">{category.name}</h3>
                 <p className="text-sm text-muted-foreground mt-1">
                   {category._count?.products || 0} produtos

@@ -10,30 +10,40 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreateProductDto) {
-    const slug = slugify(dto.name, { lower: true, strict: true });
+    const { images, initialStock, minStock, slug: dtoSlug, ...productData } = dto;
+    
+    const baseSlug = dtoSlug || slugify(dto.name, { lower: true, strict: true });
 
     const existingSlug = await this.prisma.product.findUnique({
-      where: { slug },
+      where: { slug: baseSlug },
     });
 
-    const finalSlug = existingSlug ? `${slug}-${Date.now()}` : slug;
+    const finalSlug = existingSlug ? `${baseSlug}-${Date.now()}` : baseSlug;
 
     const product = await this.prisma.product.create({
       data: {
-        ...dto,
+        ...productData,
         slug: finalSlug,
         inventory: {
           create: {
-            quantity: dto.initialStock || 0,
-            minQuantity: dto.minStock || 5,
+            quantity: initialStock || 0,
+            minQuantity: minStock || 5,
           },
         },
+        images: images?.length ? {
+          create: images.map((img, index) => ({
+            url: img.url,
+            alt: img.alt || null,
+            sortOrder: img.sortOrder ?? index,
+            isMain: img.isMain ?? index === 0,
+          })),
+        } : undefined,
       },
       include: {
         category: true,
         brand: true,
         inventory: true,
-        images: true,
+        images: { orderBy: { sortOrder: 'asc' } },
       },
     });
 
@@ -177,6 +187,8 @@ export class ProductsService {
       throw new NotFoundException('Produto não encontrado');
     }
 
+    const { images, initialStock, minStock, ...updateData } = dto as any;
+
     let slug = product.slug;
     if (dto.name && dto.name !== product.name) {
       slug = slugify(dto.name, { lower: true, strict: true });
@@ -190,7 +202,7 @@ export class ProductsService {
 
     return this.prisma.product.update({
       where: { id },
-      data: { ...dto, slug },
+      data: { ...updateData, slug },
       include: {
         category: true,
         brand: true,

@@ -3,10 +3,36 @@ import {
   IsNumber,
   IsOptional,
   IsBoolean,
+  IsArray,
+  ValidateNested,
   Min,
+  Max,
+  IsInt,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+
+class ProductImageDto {
+  @ApiProperty()
+  @IsString()
+  url: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  alt?: string;
+
+  @ApiProperty({ required: false, default: 0 })
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  sortOrder?: number;
+
+  @ApiProperty({ required: false, default: false })
+  @IsOptional()
+  @IsBoolean()
+  isMain?: boolean;
+}
 
 export class CreateProductDto {
   @ApiProperty({ example: 'SKU-001' })
@@ -16,6 +42,11 @@ export class CreateProductDto {
   @ApiProperty({ example: 'Mesa de Som Behringer X32' })
   @IsString()
   name: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  slug?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -80,6 +111,48 @@ export class CreateProductDto {
   @Type(() => Number)
   depth?: number;
 
+  // Campos fiscais brasileiros
+  @ApiProperty({ required: false, description: 'Código de barras EAN/GTIN' })
+  @IsOptional()
+  @IsString()
+  gtin?: string;
+
+  @ApiProperty({ required: false, description: 'NCM - 8 dígitos' })
+  @IsOptional()
+  @IsString()
+  ncm?: string;
+
+  @ApiProperty({ required: false, description: 'CEST - Substituição Tributária' })
+  @IsOptional()
+  @IsString()
+  cest?: string;
+
+  @ApiProperty({ required: false, default: 0, description: 'Origem do produto (0-8)' })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(8)
+  @Type(() => Number)
+  origem?: number;
+
+  @ApiProperty({ required: false, default: 'UN', description: 'Unidade de medida' })
+  @IsOptional()
+  @IsString()
+  unidadeMedida?: string;
+
+  // Garantia
+  @ApiProperty({ required: false, description: 'Garantia em meses' })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Type(() => Number)
+  warrantyMonths?: number;
+
+  @ApiProperty({ required: false, description: 'Termos da garantia' })
+  @IsOptional()
+  @IsString()
+  warrantyTerms?: string;
+
   @ApiProperty({ required: false, default: true })
   @IsOptional()
   @IsBoolean()
@@ -89,6 +162,11 @@ export class CreateProductDto {
   @IsOptional()
   @IsBoolean()
   isFeatured?: boolean;
+
+  @ApiProperty({ required: false, default: false })
+  @IsOptional()
+  @IsBoolean()
+  isDigital?: boolean;
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -113,4 +191,11 @@ export class CreateProductDto {
   @Min(0)
   @Type(() => Number)
   minStock?: number;
+
+  @ApiProperty({ required: false, type: [ProductImageDto] })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ProductImageDto)
+  images?: ProductImageDto[];
 }

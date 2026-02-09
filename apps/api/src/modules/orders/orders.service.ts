@@ -234,11 +234,13 @@ export class OrdersService {
       case OrderStatus.PAYMENT_CONFIRMED:
         updateData.paidAt = new Date();
         for (const item of order.items) {
-          await this.inventoryService.confirmReservation(
-            item.productId,
-            item.quantity,
-            order.id,
-          );
+          if (item.productId) {
+            await this.inventoryService.confirmReservation(
+              item.productId,
+              item.quantity,
+              order.id,
+            );
+          }
         }
         break;
       case OrderStatus.SHIPPED:
@@ -253,11 +255,13 @@ export class OrdersService {
       case OrderStatus.CANCELLED:
         updateData.cancelledAt = new Date();
         for (const item of order.items) {
-          await this.inventoryService.releaseReservation(
-            item.productId,
-            item.quantity,
-            order.id,
-          );
+          if (item.productId) {
+            await this.inventoryService.releaseReservation(
+              item.productId,
+              item.quantity,
+              order.id,
+            );
+          }
         }
         break;
     }
